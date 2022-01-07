@@ -1,4 +1,4 @@
-const { Class } = require('../models');
+const { Class } = require('../backend/models');
 
 // Create the functions that fulfill the queries defined in `typeDefs.js`
 const resolvers = {

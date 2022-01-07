@@ -1,4 +1,3 @@
-require("dotenv").config();
 const express = require("express");
 
 // Import the ApolloServer class
@@ -8,7 +7,7 @@ const { ApolloServer } = require("apollo-server-express");
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5001;
 const app = express();
 
 // Create a new instance of an Apollo server with the GraphQL schema
