@@ -1,11 +1,4 @@
-const typeDefs = require("./typeDefs");
-const resolvers = require("./postsResolvers");
+const typeDefs = require('./typeDefs');
+const resolvers = require('./resolvers');
 
 module.exports = { typeDefs, resolvers };
-
-// const postsResolvers = require("./resolvers/posts");
-// const usersResolvers = require("./resolvers/users");
-
-// module.exports = {
-//   ...postsResolvers.Query,
-// };
