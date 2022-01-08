@@ -1,12 +1,10 @@
-// import cors from "cors";
-// import users from "./api/restaurants.route.js";
-
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const path = require("path");
+const mongoose = require("mongoose");
 
 const { typeDefs, resolvers } = require("./schemas");
-const db = require("./config/connection");
+const { MONGODB } = require("./config/connection");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -29,9 +27,8 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
-db.once("open", () => {
-  app.listen(PORT, () => {
-    console.log(`API server running on port ${PORT}!`);
-    console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
-  });
+mongoose.connect(MONGODB, { useNewUrlParser: true }).then(async () => {
+  console.log(`API server running on port ${PORT}!`);
+  const res = await app.listen({ port: 3001 });
+  console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
 });
