@@ -1,14 +1,18 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
 const dateFormat = require("../utils/dateFormat");
 
+const User = require("./User");
+
+const { Schema } = mongoose;
+
 const postSchema = new Schema({
-  body: {
+  postText: {
     type: String,
     minlength: 1,
     maxlength: 1000,
     trim: true,
   },
-  username: {
+  postAuthor: {
     type: String,
     required: true,
     trim: true,
@@ -20,15 +24,11 @@ const postSchema = new Schema({
   },
   comments: [
     {
-      body: {
+      commentText: {
         type: String,
         required: true,
         minlength: 1,
         maxlength: 1000,
-      },
-      username: {
-        type: String,
-        required: true,
       },
       createdAt: {
         type: Date,
@@ -45,14 +45,14 @@ const postSchema = new Schema({
       },
     },
   ],
-  user: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "users",
-    },
-  ],
+//   users: [
+//     {
+//       type: Schema.Types.ObjectId,
+//       ref: "User",
+//     },
+//   ],
 });
 
-const Post = model("Post", postSchema);
+const Post = mongoose.model("Post", postSchema);
 
 module.exports = Post;
