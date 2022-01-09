@@ -1,9 +1,12 @@
 const express = require("express");
+const mongoose = require("mongoose");
 
 // Import the ApolloServer class
 const { ApolloServer } = require("apollo-server-express");
+const path = require("path");
 
 // Import the two parts of a GraphQL schema
+const Post = require("./models/Post");
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
 
