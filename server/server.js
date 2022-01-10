@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-require("dotenv").config()
+require("dotenv").config();
 // Import the ApolloServer class
 const { ApolloServer } = require("apollo-server-express");
 const path = require("path");
@@ -18,6 +18,8 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true,
+  playground: true,
   context: authMiddleware,
 });
 
