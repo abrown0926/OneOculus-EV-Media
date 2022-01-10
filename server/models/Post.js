@@ -45,12 +45,12 @@ const postSchema = new Schema({
       },
     },
   ],
-//   users: [
-//     {
-//       type: Schema.Types.ObjectId,
-//       ref: "User",
-//     },
-//   ],
+  users: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 const Post = mongoose.model("Post", postSchema);

@@ -22,8 +22,8 @@ db.once("open", async () => {
     const schools = await School.insertMany(schoolData);
     const classes = await Class.insertMany(classData);
     const professors = await Professor.insertMany(professorData);
-    const posts = await Post.insertMany(postData);
-    const users = await User.insertMany(userSeeds);
+    // const posts = await Post.insertMany(postData);
+    // const users = await User.insertMany(userSeeds);
 
     for (newClass of classes) {
       // randomly add each class to a school
@@ -53,11 +53,12 @@ db.once("open", async () => {
         );
       }
     }
+
+     console.log("all done!");
+     process.exit(0);
   } catch (err) {
     console.log(err);
     process.exit(1);
-
-    console.log("all done!");
-    process.exit(0);
+  
   }
 });

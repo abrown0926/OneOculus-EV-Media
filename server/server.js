@@ -1,9 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
-
+require("dotenv").config()
 // Import the ApolloServer class
 const { ApolloServer } = require("apollo-server-express");
 const path = require("path");
+const { authMiddleware } = require("./utils/auth");
 
 // Import the two parts of a GraphQL schema
 const Post = require("./models/Post");
@@ -17,6 +18,7 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: authMiddleware,
 });
 
 // Update Express.js to use Apollo server features
