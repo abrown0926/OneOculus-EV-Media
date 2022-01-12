@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+//const mongoose = require("mongoose");
 
-const { Schema } = mongoose;
-const Post = require("./Post");
+const { Schema, model } = require("mongoose");
+//const Post = require("./Post");
 
 const userSchema = new Schema({
   username: {
