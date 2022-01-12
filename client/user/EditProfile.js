@@ -7,8 +7,8 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
 import { makeStyles } from "@material-ui/core/styles";
-import auth from "./../auth/auth-helper";
-import { read, update } from "./api-user.js";
+import auth from "./../auth/authHelper";
+import { read, update } from "./apiUser.js";
 import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
