@@ -8,8 +8,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import auth from "./../auth/auth-helper";
-import { remove } from "./api-user.js";
+import auth from "./../auth/authHelper";
+import { remove } from "./apiUser.js";
 import { Redirect } from "react-router-dom";
 
 export default function DeleteUser(props) {

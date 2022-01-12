@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 import crypto from "crypto";
 
 const UserSchema = new mongoose.Schema({
@@ -18,6 +18,18 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: "Password is required",
   },
+  following: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "User"
+    }
+  ],
+  followers: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "User"
+    }
+  ],
   salt: String,
   updated: Date,
   created: {

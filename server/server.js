@@ -6,14 +6,13 @@ import mongoose from "mongoose";
 mongoose.Promise = global.Promise;
 mongoose.connect(config.mongoUri, {
   useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-  introspection: true,
-  playground: true,
+  useUnifiedTopology: true
 });
+console.log(config.mongoUri, "mongodb uri")
 mongoose.connection.on("error", () => {
   throw new Error(`unable to connect to database: ${config.mongoUri}`);
 });
+
 
 app.listen(config.port, (err) => {
   if (err) {
