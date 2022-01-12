@@ -6,7 +6,8 @@
   "scripts": {
     "start": "NODE_ENV=production node ./dist/server.generated.js",
     "develop": "nodemon",
-    "build": "webpack --config webpackConfigClient.js --config webpackConfigProduction.js && webpack --mode=production --config webpackConfigServer.js"
+    "dev-server": "nodemon server/server.js",
+    "build": "webpack --config webpack.config.client.production.js && webpack --mode=production --config webpack.config.server.js"
   },
   "keywords": [
     "mongodb",
@@ -17,7 +18,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "7.9.0",
+    "@babel/cli": "^7.16.8",
+    "@babel/core": "^7.9.0",
     "@babel/preset-env": "7.9.0",
     "@babel/preset-react": "7.9.4",
     "babel-loader": "8.1.0",
@@ -44,11 +46,12 @@
     "dotenv": "^10.0.0",
     "express": "4.17.1",
     "express-jwt": "5.3.1",
+    "formidable": "^2.0.1",
     "graphql": "^16.2.0",
     "helmet": "3.22.0",
     "jsonwebtoken": "8.5.1",
     "lodash": "^4.17.21",
-    "mongoose": "^6.1.5",
+    "mongoose": "^6.1.6",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-hot-loader": "4.12.20",

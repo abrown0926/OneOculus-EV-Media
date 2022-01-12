@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -48,6 +48,7 @@ export default function Home({ history }) {
   useEffect(() => {
     setDefaultPage(auth.isAuthenticated());
     const unlisten = history.listen(() => {
+      console.log(auth.isAuthenticated(), "auth")
       setDefaultPage(auth.isAuthenticated());
     });
     return () => {

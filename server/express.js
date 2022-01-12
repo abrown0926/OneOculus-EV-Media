@@ -8,6 +8,7 @@ import helmet from "helmet";
 import Template from "./../template";
 import userRoutes from "./routes/userRoutes";
 import authRoutes from "./routes/authRoutes";
+import postRoutes from "./routes/postRoutes";
 
 // modules for server side rendering
 import React from "react";
@@ -43,9 +44,11 @@ app.use("/dist", express.static(path.join(CURRENT_WORKING_DIR, "dist")));
 // mount routes
 app.use("/", userRoutes);
 app.use("/", authRoutes);
+app.use("/", postRoutes);
 
 app.get("*", (req, res) => {
   const sheets = new ServerStyleSheets();
+
   const context = {};
   const markup = ReactDOMServer.renderToString(
     sheets.collect(
@@ -68,7 +71,7 @@ app.get("*", (req, res) => {
   );
 });
 
-// Catch unauthorized errors express-jwt
+// Catch unauthorised errors
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
     res.status(401).json({ error: err.name + ": " + err.message });

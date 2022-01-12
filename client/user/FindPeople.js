@@ -52,6 +52,7 @@ export default function FindPeople() {
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
+    console.log(jwt, "jwt")
 
     findPeople(
       {
@@ -62,6 +63,7 @@ export default function FindPeople() {
       },
       signal
     ).then((data) => {
+      console.log(data, "data")
       if (data && data.error) {
         console.log(data.error);
       } else {
@@ -99,6 +101,7 @@ export default function FindPeople() {
   const handleRequestClose = (event, reason) => {
     setValues({ ...values, open: false });
   };
+  console.log(values, "values")
   return (
     <div>
       <Paper className={classes.root} elevation={4}>
@@ -106,7 +109,7 @@ export default function FindPeople() {
           Who to follow
         </Typography>
         <List>
-          {values.users.map((item, i) => {
+          {values.user &&  values.users.map((item, i) => {
             return (
               <span key={i}>
                 <ListItem>

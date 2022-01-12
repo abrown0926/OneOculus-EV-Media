@@ -1,3 +1,7 @@
+import dotenv from "dotenv"
+
+dotenv.config()
+
 const config = {
   env: process.env.NODE_ENV || "develop",
   port: process.env.PORT || 3000,
@@ -13,3 +17,16 @@ const config = {
 };
 
 export default config;
+
+// const mongoose = require("mongoose");
+
+// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/oneoculus", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useCreateIndex: true,
+//   useFindAndModify: false,
+//   introspection: true,
+//   playground: true,
+// });
+
+// module.exports = mongoose.connection;
