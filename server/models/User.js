@@ -42,6 +42,7 @@ const userSchema = new mongoose.Schema({
 userSchema
   .virtual("password")
   .set(function (password) {
+    console.log(password);
     this._password = password;
     this.salt = this.makeSalt();
     this.hashed_password = this.encryptPassword(password);
@@ -51,11 +52,12 @@ userSchema
   });
 
 userSchema.path("hashed_password").validate(function (v) {
+  console.log(this._password, "this._password");
   if (this._password && this._password.length < 6) {
     this.invalidate("password", "Password must be at least 6 characters.");
   }
   if (this.isNew && !this._password) {
-    this.invalidate("password", "Password is required");
+    this.invalidate("password", "Password is required!");
   }
 }, null);
 
@@ -77,6 +79,15 @@ userSchema.methods = {
   makeSalt: function () {
     return Math.round(new Date().valueOf() * Math.random()) + "";
   },
+};
+
+userSchema.statics.checkPassword = async function (salt, password) {
+  const hashedPassword = function (salt, password) {
+    const hmac = crypto.createHmac("sha1", salt);
+    return hmac.update(password).digest("hex");
+  };
+
+  return hashedPassword(salt, password);
 };
 
 const User = mongoose.model("User", userSchema);
