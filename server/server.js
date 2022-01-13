@@ -21,7 +21,7 @@ const server = new ApolloServer({
   resolvers,
   introspection: true,
   playground: true,
-  context: authMiddleware,
+  context: ({req}) => ({req}),
 });
 
 // Update Express.js to use Apollo server features

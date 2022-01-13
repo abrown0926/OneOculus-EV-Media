@@ -15,7 +15,7 @@ const typeDefs = gql`
     email: String!
     hashed_password: String!
     about: String
-    createdAt: String!
+    createdAt: String
   }
 
   # Define which queries the front end is allowed to make and what data is returned
@@ -28,6 +28,11 @@ const typeDefs = gql`
     post(postId: ID!): Post
     comments(name: String): User
     me: User
+  }
+  type Mutation {
+    register(email: String!, hashed_password: String!, name: String!): User!
+    login(email: String!, hashed_password: String!): User!
+    createPost(text: String!): Post
   }
 `;
 
