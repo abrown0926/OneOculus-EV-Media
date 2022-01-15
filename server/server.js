@@ -8,6 +8,7 @@ const { authMiddleware } = require("./utils/auth");
 
 // Import the two parts of a GraphQL schema
 const Post = require("./models/Post");
+const User = require("./models/User");
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
 
@@ -20,7 +21,7 @@ const server = new ApolloServer({
   resolvers,
   introspection: true,
   playground: true,
-  context: authMiddleware,
+  context: ({req}) => ({req}),
 });
 
 // Update Express.js to use Apollo server features
@@ -28,6 +29,17 @@ server.applyMiddleware({ app });
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// Serve up static assets
+app.use("/images", express.static(path.join(__dirname, "../client/images")));
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+}
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
 
 db.once("open", () => {
   app.listen(PORT, () => {

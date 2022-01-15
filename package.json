@@ -4,7 +4,8 @@
   "description": "",
   "main": "server/server.js",
   "scripts": {
-    "start": "node server/server.js",
+    "start": "node server",
+    "dev-server": "nodemon server",
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
     "install": "cd server && npm i && cd ../client && npm i",
     "seed": "cd server && npm run seed",
@@ -14,13 +15,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^5.1.0"
-  },
-  "dependencies": {
-    "apollo-server": "^3.6.1",
-    "apollo-server-express": "^3.6.1",
-    "dotenv": "^10.0.0",
-    "graphql": "^16.2.0",
-    "mongoose": "^6.1.5"
+    "concurrently": "^5.1.0",
+    "nodemon": "^2.0.15"
   }
 }
