@@ -8,6 +8,13 @@ const typeDefs = gql`
     createdAt: String!
     name: String!
     email: String!
+    comments: [Comment]!
+  }
+  type Comment {
+    _id: ID
+    commentText: String
+    createdAt: String
+    postedBy: ID!
   }
   type User {
     _id: ID!
@@ -20,7 +27,8 @@ const typeDefs = gql`
 
   # Define which queries the front end is allowed to make and what data is returned
   type Query {
-    getPosts: [Post]
+    getPosts: [Post]!
+    getPost(postId: ID!): Post
     name: String
     email: [User]
     user(email: String!): User
@@ -29,10 +37,15 @@ const typeDefs = gql`
     comments(name: String): User
     me: User
   }
+
   type Mutation {
     register(email: String!, hashed_password: String!, name: String!): User!
     login(email: String!, hashed_password: String!): User!
-    createPost(text: String!): Post
+    updateUser(email: String!, hashed_password: String!, name: String!): User
+    createPost(text: String!, email: String!, userId: ID!): Post
+    deletePost(postId: ID!): Post
+    addComment(postId: ID!,commentText: String!, postedBy: ID!): Post
+    removeComment(postId: ID!, commentId: ID!): Post
   }
 `;
 
