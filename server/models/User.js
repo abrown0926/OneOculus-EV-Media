@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const crypto = require("crypto");
+const dateFormat = require("../utils/dateFormat");
 
 const { Schema, model } = require("mongoose");
 //const Post = require("./Post");
@@ -26,6 +27,7 @@ const userSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+    get: (timestamp) => dateFormat(timestamp),
   },
   about: {
     type: String,
@@ -42,7 +44,7 @@ const userSchema = new mongoose.Schema({
 userSchema
   .virtual("password")
   .set(function (password) {
-    console.log(password);
+    // console.log(password);
     this._password = password;
     this.salt = this.makeSalt();
     this.hashed_password = this.encryptPassword(password);
@@ -52,7 +54,7 @@ userSchema
   });
 
 userSchema.path("hashed_password").validate(function (v) {
-  console.log(this._password, "this._password");
+  // console.log(this._password, "this._password");
   if (this._password && this._password.length < 6) {
     this.invalidate("password", "Password must be at least 6 characters.");
   }
