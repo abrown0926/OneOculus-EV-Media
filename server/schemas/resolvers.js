@@ -5,31 +5,22 @@ const auth = require("../utils/auth");
 // Create the functions that fulfill the queries defined in `typeDefs.js`
 const resolvers = {
   Query: {
-    // posts: async () => {
-    //   return await Post.find({});
-    // },
-    // post: async (parent, { postId }) => {
-    //   return Post.findOne({ _id: postId });
-    // },
-    // users: async () => {
-    //   return User.find().populate("posts");
-    // },
-    // user: async (parent, { username }) => {
-    //   return User.findOne({ username }).populate("posts");
-    // },
-    // posts: async (parent, { username }) => {
-    //   const params = username ? { username } : {};
-    //   return Post.find(params).sort({ createdAt: -1 });
-    // },
-    // post: async (parent, { postId }) => {
-    //   return Post.findOne({ _id: postId });
-    // },
-    // me: async (parent, args, context) => {
-    //   if (context.user) {
-    //     return User.findOne({ _id: context.user._id }).populate("posts");
-    //   }
-    //   throw new AuthenticationError("You need to be logged in!");
-    // },
+    async getPosts() {
+      try {
+        const posts = await Post.find();
+        return posts;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    async getPost() {
+      try {
+        const posts = await Post.findOne();
+        return Post.findOne({ _id: postId });
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
   },
   Mutation: {
     async register(_, { email, name, hashed_password }) {
@@ -59,22 +50,45 @@ const resolvers = {
         if (passwordMatch !== existingUser.hashed_password)
           throw new AuthenticationError("Incorrect password");
         const token = auth.signToken(existingUser);
-        console.log(token)
+        console.log(token);
         return existingUser;
       } catch (error) {
         throw error;
       }
     },
-    async createPost(_, {text}, context) {
+    async createPost(_, { text, email, userId }, context) {
       try {
-        const currentUser = auth.authMiddleware(context)
-        if(!currentUser) throw new AuthenticationError("login required");
-        const newPost = Post.create({text, postedBy: currentUser._id})
+        const currentUser = auth.authMiddleware(context);
+        if (!currentUser) throw new AuthenticationError("login required");
+        const newPost = await Post.create({ text, email, userId });console.log(newPost, "psotcreted")
         return newPost;
       } catch (error) {
-        throw error
+        throw error;
       }
-    }
+    },
+    addComment: async (_, { postId, commentText, postedBy }) => {
+      return await Post.findOneAndUpdate(
+        { _id: postId },
+        {
+          $addToSet: { comments: { commentText, postedBy } },
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+    },
+    deletePost: async (_, { postId }) => {
+      const returnedValue = await Post.findOneAndDelete({ _id: postId });
+      return returnedValue
+    },
+    removeComment: async (_, { postId, commentId }) => {
+      return Post.findOneAndUpdate(
+        { _id: postId },
+        { $pull: { comments: { _id: commentId } } },
+        { new: true }
+      );
+    },
   },
 };
 

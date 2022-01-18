@@ -4,18 +4,30 @@ const dateFormat = require("../utils/dateFormat");
 const { Schema } = mongoose;
 
 const postSchema = new mongoose.Schema({
+  // _id: {
+  //   type: ,
+  //   required: "Id required",
+  // },
+  email: {
+    type: String,
+    // required: "Email is required",
+  },
   text: {
     type: String,
     required: "Text is required",
   },
-  photo: {
-    data: Buffer,
-    contentType: String,
+  profilePicture: {
+    type: String,
+    default: "",
   },
   likes: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
   comments: [
     {
-      text: String,
+      commentText: {
+        type: String,
+        minlength: 1,
+        maxlength: 1000,
+      },
       createdAt: {
         type: Date,
         default: Date.now,
@@ -24,12 +36,6 @@ const postSchema = new mongoose.Schema({
       postedBy: { type: mongoose.Schema.ObjectId, ref: "User" },
     },
   ],
-  postedBy: { type: mongoose.Schema.ObjectId, ref: "User" },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-    get: (timestamp) => dateFormat(timestamp),
-  },
 });
 
 const Post = mongoose.model("Post", postSchema);

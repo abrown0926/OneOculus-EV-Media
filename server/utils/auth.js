@@ -1,5 +1,7 @@
 const { TokenKind } = require("graphql");
 const jwt = require("jsonwebtoken");
+const router = require("express").Router();
+const User = require("../models/User");
 require("dotenv").config();
 
 const jwtSecretKey = `${process.env.JWT_SECRET_KEY}`;

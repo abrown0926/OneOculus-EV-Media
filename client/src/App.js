@@ -1,5 +1,6 @@
-import React from "react";
-import { Button, Form, Segment } from "semantic-ui-react";
+import Home from "./pages/home/Home";
+// import { Button } from "semantic-ui-react";
+import MenuBar from "./components/navbar/NavBar";
 
 const FormExampleInverted = () => (
   <Segment inverted>
