@@ -9,8 +9,14 @@ db.once("open", async () => {
     // clean database
     await Post.deleteMany({});
     await User.deleteMany({});
-    await Post.create(postData);
-    await User.create(userSeeds);
+    const users = await User.create(userSeeds);
+    const newPost = postData.map((i) => ({...i, postedBy: users[0]._id}));
+    await Post.create(newPost);
+
+    // Promise.all([User.create(userSeeds)]).then(async ([users]) => {
+    //   const newPost = postData.map(i => i.postedBy = users[0]._id)
+    //   return await Post.create(newPost)
+    // })
 
     // bulk create each model
     // const posts = await Post.insertMany(postData);
@@ -33,9 +39,9 @@ db.once("open", async () => {
     //   await tempProfessor.save();
 
     //   for (let i = 0; i < postData.length; i++) {
-    //     const { _id, postAuthor } = await Post.create(postData[i]);
+    //     const { _id, postedBy } = await Post.create(postData[i]);
     //     const user = await User.findOneAndUpdate(
-    //       { username: postAuthor },
+    //       { username: postedBy },
     //       {
     //         $addToSet: {
     //           posts: _id,

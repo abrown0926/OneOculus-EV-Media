@@ -1,9 +1,36 @@
+import { Container } from "semantic-ui-react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import "./App.css"
+
+import { AuthProvider } from "./utils/auth";
+import AuthRoute from "./utils/AuthRoute";
+
+import MenuBar from "./components/menubar/MenuBar";
 import Home from "./pages/home/Home";
-// import { Button } from "semantic-ui-react";
-import MenuBar from "./components/navbar/NavBar";
+import Register from "./pages/register/Register";
+import Login from "./pages/login/Login";
+import Dashboard from "./pages/dashboard/Dashboard"
+import SinglePost from "./pages/singlePost/SinglePost";
+import LandingPage from "./pages/landingPage/LandingPage";
 
 function App() {
-  return <Home />;
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <Container>
+          <MenuBar />
+          <Switch>
+            <Route exact path="/" component={LandingPage} />
+            <AuthRoute exact path="/home" component={Home} />
+            <AuthRoute  path="/post/:id" component={SinglePost} />
+            <AuthRoute exact path="/dashboard" component={Dashboard} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+          </Switch>
+        </Container>
+      </BrowserRouter>
+    </AuthProvider>
+  );
 }
 
 export default App;

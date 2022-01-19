@@ -5,46 +5,68 @@ const typeDefs = gql`
   type Post {
     _id: ID!
     text: String!
+    title: String!
+    postedBy: User
     createdAt: String!
-    name: String!
-    email: String!
     comments: [Comment]!
   }
   type Comment {
     _id: ID
     commentText: String
     createdAt: String
-    postedBy: ID!
+    commentBy: User!
   }
   type User {
     _id: ID!
-    name: String!
+    name: String
     email: String!
     hashed_password: String!
-    about: String
+    ev: String
+    desc: String!
+    currentCity: String
     createdAt: String
+    profilePicture: String
+    coverPicture: String
+    token: String
+    followers: [User]
+    following: [User]
+  }
+
+  input UserInput {
+    name: String!
+    email: String!
+    ev: String
+    profilePicture: String
+    coverPicture: String
+    desc: String
+    currentCity: String
   }
 
   # Define which queries the front end is allowed to make and what data is returned
   type Query {
     getPosts: [Post]!
     getPost(postId: ID!): Post
+    getPostsByUser: [Post]
     name: String
     email: [User]
-    user(email: String!): User
-    posts(name: String): [Post]
+    getUser(userId: ID!): User
+    posts(postedBy: String): [Post]
     post(postId: ID!): Post
-    comments(name: String): User
+    comments(commentBy: String): User
     me: User
   }
 
   type Mutation {
     register(email: String!, hashed_password: String!, name: String!): User!
     login(email: String!, hashed_password: String!): User!
-    updateUser(email: String!, hashed_password: String!, name: String!): User
-    createPost(text: String!, email: String!, userId: ID!): Post
+    updateUser(userInput: UserInput, userId: ID!): User
+    createPost(
+      text: String!
+      title: String!
+    ): Post
+    updatePost(postId: ID!, text: String!, title: String!): Post
     deletePost(postId: ID!): Post
-    addComment(postId: ID!,commentText: String!, postedBy: ID!): Post
+    addComment(postId: ID!, commentText: String!, commentBy: ID!): Post
     removeComment(postId: ID!, commentId: ID!): Post
   }
 `;

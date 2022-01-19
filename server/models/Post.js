@@ -8,19 +8,23 @@ const postSchema = new mongoose.Schema({
   //   type: ,
   //   required: "Id required",
   // },
-  email: {
+  title: {
     type: String,
-    // required: "Email is required",
   },
   text: {
     type: String,
     required: "Text is required",
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    get: (timestamp) => dateFormat(timestamp),
+  },
   profilePicture: {
     type: String,
     default: "",
   },
-  likes: [{ type: mongoose.Schema.ObjectId, ref: "User" }],
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   comments: [
     {
       commentText: {
@@ -33,9 +37,13 @@ const postSchema = new mongoose.Schema({
         default: Date.now,
         get: (timestamp) => dateFormat(timestamp),
       },
-      postedBy: { type: mongoose.Schema.ObjectId, ref: "User" },
+      commentBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     },
   ],
+  postedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 const Post = mongoose.model("Post", postSchema);
