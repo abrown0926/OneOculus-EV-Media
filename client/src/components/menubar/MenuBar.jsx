@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Menu } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../utils/auth";
 
 function MenuBar() {
@@ -15,13 +15,13 @@ function MenuBar() {
     <Menu pointing secondary size="massive" color="blue">
       <Menu.Item name={user.email} active as={Link} to="/home" />
       <Menu.Menu position="right">
-        <Menu.Item
-          name="dashboard"
-          active={activeItem === "dashboard"}
-          onClick={handleItemClick}
-          as={Link}
-          to="/dashboard"
-        />
+          <Menu.Item
+            name="dashboard"
+            active={activeItem === "dashboard"}
+            onClick={handleItemClick}
+            as={Link}
+            to="/dashboard"
+          />
         <Menu.Item name="logout" onClick={logout} />
       </Menu.Menu>
     </Menu>

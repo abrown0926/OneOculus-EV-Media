@@ -21,9 +21,9 @@ function App() {
           <MenuBar />
           <Switch>
             <Route exact path="/" component={LandingPage} />
-            <AuthRoute exact path="/home" component={Home} />
-            <AuthRoute  path="/post/:id" component={SinglePost} />
-            <AuthRoute exact path="/dashboard" component={Dashboard} />
+            <AuthRoute path="/home" component={Home} />
+            <AuthRoute path="/post/:id" component={SinglePost} />
+            <AuthRoute path="/dashboard" component={Dashboard} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
           </Switch>

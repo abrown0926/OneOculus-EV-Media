@@ -7,7 +7,7 @@ import { AuthContext } from "../../utils/auth";
 
 function Register(props) {
   const context = useContext(AuthContext);
-  const [errors, setErros] = useState({});
+  const [errors, setErrors] = useState({});
 
   const { onChange, onSubmit, values } = useForm(registerUser, {
     name: "",
@@ -22,17 +22,32 @@ function Register(props) {
       props.history.push("/dashboard");
     },
     onError(err) {
-      console.log(err)
+      if (err.message.includes("email")) setErrors({ email: err.message });
     },
     variables: values,
   });
 
-  function registerUser() {
-    if (values.hashed_password !== values.confirm_password) {
-      alert("Password Does not match");
+  function validateUser() {
+    setErrors("");
+    if (values.hashed_password < 5) {
+      setErrors({ ...errors, hashed_password: "Password Cannot be lesser than 5 character" });
+    } else if (values.name === "") {
+      setErrors({ ...errors, name: "name field is required" });
+    } else if (values.hashed_password !== values.confirm_password) {
+      setErrors({ ...errors, confirmPassword: "password does not match" });
     } else {
       addUser();
     }
+  }
+
+  function registerUser() {
+    // if (values.hashed_password !== values.confirm_password) {
+    //   alert("Password Does not match");
+    // } else {
+    //   addUser();
+    // }
+
+    validateUser();
   }
 
   return (
@@ -72,7 +87,7 @@ function Register(props) {
           name="confirm_password"
           type="password"
           value={values.confirmPassword}
-          error={errors.hashed_password ? true : false}
+          error={errors.confirmPassword ? true : false}
           onChange={onChange}
         />
         <Button type="submit" primary>
@@ -98,11 +113,7 @@ const SIGNUP_MUTATION = gql`
     $hashed_password: String!
     $name: String!
   ) {
-    register(
-      email: $email
-      name: $name
-      hashed_password: $hashed_password
-    ) {
+    register(email: $email, name: $name, hashed_password: $hashed_password) {
       _id
       name
       email

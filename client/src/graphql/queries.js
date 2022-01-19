@@ -76,6 +76,7 @@ export const GET_SINGLE_POST = gql`
         commentBy {
           _id
           name
+          profilePicture
         }
         createdAt
       }

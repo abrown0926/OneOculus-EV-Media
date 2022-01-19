@@ -63,7 +63,7 @@ const SinglePost = () => {
               }
             />
             <Comment.Content>
-              <Comment.Author as="a">{item.commentBy._id}</Comment.Author>
+              <Comment.Author as="a">{item.commentBy?.name}</Comment.Author>
               <Comment.Metadata>
                 <div>{item.createdAt}</div>
               </Comment.Metadata>
