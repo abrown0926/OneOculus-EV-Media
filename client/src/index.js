@@ -1,11 +1,9 @@
 import "semantic-ui-css/semantic.min.css";
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import ApolloProvider from "./ApolloProvider";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    ApolloProvider,
   document.getElementById("root")
 );

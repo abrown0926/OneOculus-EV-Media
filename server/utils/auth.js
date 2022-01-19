@@ -1,3 +1,4 @@
+const { AuthenticationError } = require("apollo-server-express");
 const { TokenKind } = require("graphql");
 const jwt = require("jsonwebtoken");
 const router = require("express").Router();
@@ -11,9 +12,8 @@ module.exports = {
   authMiddleware: function ({ req }) {
     // allows token to be sent via req.body, req.query, or headers
     let token = req.headers.authorization;
-    // ["Bearer", "<tokenvalue>"]
     if (req.headers.authorization) {
-      token = token.split(" ").pop().trim();
+      token = token; //.split(" ").pop().trim();
     }
 
     if (!token) {
@@ -29,7 +29,23 @@ module.exports = {
       console.log("Invalid token");
     }
 
-    return req;
+    return req.user;
+  },
+  authMiddleware2: function (context) {
+    const header = context.req.headers.authorization;
+    if(header) {
+      const token = header.split("Bearer ")[1]
+      if (token) {
+        try {
+          const user = jwt.verify(token, jwtSecretKey);
+          return user.data;
+        } catch (error) {
+          throw new AuthenticationError("Invalid token");
+        }
+      }
+      throw new Error("Auth token required")
+    }
+    throw new Error("Authorization header must be provided");
   },
   signToken: function ({ name, email, _id }) {
     const payload = { name, email, _id };

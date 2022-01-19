@@ -32,13 +32,13 @@ const userSchema = new mongoose.Schema(
       default: Date.now,
       get: (timestamp) => dateFormat(timestamp),
     },
-    about: {
+    ev: {
       type: String,
       trim: true,
     },
     profilePicture: {
       type: String,
-      default: "",
+      default: "https://react.semantic-ui.com/images/avatar/large/elliot.jpg",
     },
     coverPicture: {
       type: String,
@@ -56,6 +56,14 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    desc: {
+      type: String,
+      max: 500,
+    },
+    currentCity: {
+      type: String,
+      max: 50,
+    },
   },
   { timestamp: true }
 );
@@ -63,7 +71,6 @@ const userSchema = new mongoose.Schema(
 userSchema
   .virtual("password")
   .set(function (password) {
-    // console.log(password);
     this._password = password;
     this.salt = this.makeSalt();
     this.hashed_password = this.encryptPassword(password);
@@ -73,7 +80,6 @@ userSchema
   });
 
 userSchema.path("hashed_password").validate(function (v) {
-  // console.log(this._password, "this._password");
   if (this._password && this._password.length < 6) {
     this.invalidate("password", "Password must be at least 6 characters.");
   }
