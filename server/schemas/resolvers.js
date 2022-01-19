@@ -15,7 +15,7 @@ const resolvers = {
     },
     async getPost(_, { postId }) {
       try {
-        const post = await Post.findOne({ _id: postId }).populate({path: "postedBy"})
+        const post = await Post.findOne({ _id: postId }).populate({path: "postedBy"}).populate({path: "comments.commentBy"})
         return post
       } catch (err) {
         throw new Error(err);

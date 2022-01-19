@@ -23,7 +23,8 @@ function Login(props) {
       props.history.push("/dashboard");
     },
     onError(err) {
-      console.log(err)
+      console.log(err.message, "error")
+      setErros({email: err.message})
     },
   });
 
@@ -50,7 +51,7 @@ function Login(props) {
           name="hashed_password"
           type="password"
           value={values.hashed_password}
-          error={errors.hashed_password ? true : false}
+          error={errors.email && errors.email.includes("password") ? true : false}
           onChange={onChange}
         />
         <Button type="submit" primary>

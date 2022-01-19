@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 // import { decodeToken } from "../../utils/auth"
 import { useQuery } from "@apollo/client";
 import { GET_USER_POSTS, GET_USER_DETAILS } from "../../graphql/queries";
@@ -11,14 +11,18 @@ const Dashboard = () => {
   const { data, refetch } = useQuery(GET_USER_POSTS);
   const userQuery = useQuery(GET_USER_DETAILS, {
     variables: {
-      userId: user._id,
+      userId: user?._id,
     },
   });
   const userDetails = userQuery.data?.getUser;
   const posts = data?.getPostsByUser || [];
+
+  useEffect(() => {
+    refetch()
+  }, [])
   return (
     <div>
-      <h1>Dashboard page</h1>
+      <h1>Dashboard</h1>
       <Grid divided="vertically">
         <Grid.Row columns={2}>
           <Grid.Column>
@@ -36,7 +40,7 @@ const Dashboard = () => {
             />
           </Grid.Column>
           <Grid.Column>
-            {posts.length && <PostCard {...posts[posts.length - 1]} refetch={refetch} />}
+            {posts.length ? <PostCard {...posts[posts.length - 1]} refetch={refetch} /> : null}
           </Grid.Column>
         </Grid.Row>
 
